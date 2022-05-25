@@ -1,0 +1,82 @@
+.n1{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.icon{
+    color: #6B778C  !important;
+    padding-right: 10px;
+}
+.activee{
+    background-color: indianred;
+}
+.spanStyle{
+    color: #232F57 ;
+    font-size: 28px;
+    line-height: 35px;
+    font-weight: 600;
+    padding-left: 10px;
+}
+.name{
+    display: flex;
+    align-items: center;
+}
+.n1 {
+    padding-right: 30px;
+    color:  #232F57;
+    font-weight: 700;
+    font-size: 28px;
+}
+.n2{
+    color: #6B778C;
+    font-weight: 400;
+}
+.n3{
+    color: #232F57;
+    font-weight: 400;
+    size: 20px;
+}
+.d1{
+    padding-top: 10px;
+}
+.n4{
+    color:  #232F57;
+    font-weight: 500;
+    font-size: 20px;
+    display: flex;
+    
+}
+.d2{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.d3{
+    display: flex;
+    justify-content: end;
+    
+}
+.b1{
+    background-color: #F4F5F7 !important;
+    color: #5D6C97 !important;
+}
+.d4{
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.n5{
+    color: #6B778C;
+    font-size: 20px;
+    font-weight: 500;
+}
+.details{
+    color: #232F57;
+    font-weight: 600;
+    font-size: 20px;
+}
+.css-e24sxl-MuiGrid-root{
+    margin-left: 0px !important;
+}
