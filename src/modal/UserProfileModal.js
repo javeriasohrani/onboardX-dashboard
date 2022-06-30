@@ -24,6 +24,7 @@ const style = {
     p: 4,
     display: { sm: 'scroll', md: 'block' }
 };
+
 const useStyles = makeStyles(() => ({
     root: {
         '&::-webkit-scrollbar': {

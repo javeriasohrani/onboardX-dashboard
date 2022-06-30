@@ -14,7 +14,7 @@ function Dashboard() {
             <Grid item sm={11} md={10} >
                 <Navbar />
                 <Breadcrumb place={"Dashboard"}/>
-                <Dash />
+                <Dash /> 
             </Grid>
         </Grid>
     )

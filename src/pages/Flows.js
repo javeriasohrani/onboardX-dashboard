@@ -14,9 +14,9 @@ function Flows() {
             <Grid item sm={11} md={10} >
                 <Navbar />
                 <Breadcrumb place={"Flows"} />
-                <FlowTable />
+                <FlowTable  />
             </Grid>
-        </Grid>
+        </Grid> 
     )
 }
 

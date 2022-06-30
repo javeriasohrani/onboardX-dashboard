@@ -13,6 +13,7 @@ import {
   Card,
   CardContent,
   Divider,
+  Link as MLink,
   Button,
   TableContainer,
   Table,
@@ -37,6 +38,10 @@ import RegisterEmpModal from "../modal/RegisterEmpModal";
 import { All_Employees, All_Form_Data } from "../Apis";
 import Spinner from "react-spinner-material";
 import { InputLabel } from "@mui/material";
+import TaskProgressComponent from "./taskComplete/TaskProgressComponent";
+import FormTable from "./form/FormTable";
+import EmployeeList from "./EmployeeList";
+import SuperEmpDetail from "./SuperEmpDetail";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -58,13 +63,14 @@ const useStyles = makeStyles(() => ({
 function Dash() {
   const classes = useStyles();
   const completed = 50;
-  const progress = 25;
+  const progress = 35;
   const overdue = 25;
   const [name, setName] = useState(0);
   const [flow, setFlow] = useState(false);
+  const [addemp, setAddEmp] = useState(false);
 
-  const handleClick = () => {
-    console.log("I am Clicked");
+  const handleClick = (name) => {
+    console.log("I am Clicked", name);
   };
 
   const handleChange = (event) => {
@@ -73,6 +79,10 @@ function Dash() {
 
   const handleFlow = () => {
     setFlow(!flow);
+  };
+
+  const addnewEmployee = () => {
+    setAddEmp(!addemp);
   };
 
   // const [loading, setLoading] = useState(true);
@@ -92,7 +102,7 @@ function Dash() {
     },
   ]);
 
-  const [empoyees, setEmpoyees] = useState([
+  const [employees, setEmployees] = useState([
     {
       form_id: "",
       employee_name: "",
@@ -110,7 +120,7 @@ function Dash() {
 
   const getData = async () => {
     setIsLoading(true);
-    const res = await axios.get(All_Employees).then((res) => {
+    await axios.get(All_Employees).then((res) => {
       console.log(res.data);
       setItems(res.data);
     });
@@ -118,18 +128,19 @@ function Dash() {
   };
 
   const getFormData = async () => {
-    const formRes = await axios.get(All_Form_Data).then((formRes) => {
-      // console.log(formRes.data)
+    await axios.get(All_Form_Data).then((formRes) => {
+      console.log("All_Form_Data", formRes.data)
       setallForms(formRes.data);
+      console.log("form", formRes);
     });
     // .catch(error => console.error(`Error ${error}`));
   };
 
   const getEmployees = async () => {
     setIsLoading(true);
-    const res = await axios.get(All_Employees).then((res) => {
-      // console.log(res.data)
-      setEmpoyees(res.data);
+    axios.get(All_Employees).then((res) => {
+      console.log(res.data);
+      setEmployees(res.data);
       setIsLoading(false);
     });
     // .catch(error => console.error(`Error ${error}`));
@@ -139,12 +150,20 @@ function Dash() {
     <Box>
       <Box
         sx={{
-          backgroundColor: "#F4F5F7",
           overflow: { md: "hidden", xs: "auto" },
+          maxWidth: "100%",
+          height: "1024px",
+          background: "#F4F5F7",
+          paddingLeft: "20px",
         }}
       >
         <Grid container sx={{ p: "20px" }}>
-          <Grid item xs={12} md={12} sx={{ paddingBottom: "15px" }}>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            sx={{ paddingBottom: "15px", marginRight: "48px" }}
+          >
             <FormControl sx={{ width: "250px", backgroundColor: "#ffffff" }}>
               {/* <InputLabel id="demo-multiple-name-label">Select Employee</InputLabel> */}
 
@@ -153,302 +172,103 @@ function Dash() {
                 value={name}
                 onChange={handleChange}
               >
-                <MenuItem disabled value={0}>
-                  <Text sx={{ fontWeight: 300, fontColor: "#6B778C" }}>
-                    Select Employee
+                <MenuItem value={0}>
+                  <Text
+                    sx={{
+                      fontFamily: "Mulish",
+                      fontStyle: "normal",
+                      fontWeight: 400,
+                      fontSize: "16px",
+                      lineHeight: "20px",
+                      display: "flex",
+                      alignItems: "center",
+                      color: "#6B778C",
+                    }}
+                  >
+                    All Employee
                   </Text>
                 </MenuItem>
                 {items.map((item) => (
-                  <Link
-                    to={`/super-dash/${item.employee_id}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <MenuItem key={item.employee_id} value={item.employee_name}>
-                      <Text>{item.employee_name}</Text>
-                    </MenuItem>
-                  </Link>
+                  <MenuItem key={item.employee_id} value={item.employee_id}>
+                    {item.employee_id && (
+                      <Text
+                        sx={{
+                          fontFamily: "Mulish",
+                          fontStyle: "normal",
+                          fontWeight: 400,
+                          fontSize: "16px",
+                          lineHeight: "20px",
+                          display: "flex",
+                          alignItems: "center",
+                          color: "#6B778C",
+                        }}
+                      >
+                        {item.employee_name}
+                      </Text>
+                    )}
+                  </MenuItem>
                 ))}
-
-                {/* <MenuItem disabled value={0}>
-                                <Text sx={{ fontWeight: 300, fontColor: "#6B778C" }}>Select Employee</Text>
-                            // </MenuItem> */}
-                {/* // <Link to = '/super-dash' style={{textDecoration : 'none'}}>
-                                
-                            // <MenuItem value={1}><Text>Haris Khan</Text></MenuItem>
-                            // </Link> */}
               </Select>
             </FormControl>
           </Grid>
 
+          {/* TaskProgressComponent here */}
           <Grid container spacing={3} xs={12} md={12}>
-            <Grid item xs={12} md={4}>
-              <Card sx={{ height: "85%", width: "100%", py: 1 }}>
-                <CardContent
-                  sx={{ display: "flex", justifyContent: "flex-start" }}
-                >
-                  <Box>
-                    <Text
-                      sx={{ fontWeight: 600, fontSize: "42px", mt: "10px" }}
-                    >
-                      90
-                    </Text>
-                    <Text
-                      sx={{ fontWeight: 600, fontSize: "18px", mt: "10px" }}
-                    >
-                      Completed Tasks
-                    </Text>
-                  </Box>
-                  <Box sx={{ width: "35%", ml: "25px" }}>
-                    <CircularProgressbar
-                      strokeWidth={12}
-                      value={completed}
-                      text={`${completed}%`}
-                      styles={buildStyles({
-                        strokeLinecap: "butt",
-                        textColor: "#232F57",
-                        pathColor: "#36B37E",
-                        trailColor: "#F4F5F7",
-                      })}
-                    />
-                  </Box>
-                </CardContent>
-              </Card>
+            <Grid item xs={12} md={4} sx={{ minWidth: "33.3%" }}>
+              <TaskProgressComponent status="completed" completed={completed} />
             </Grid>
 
-            <Grid item xs={12} md={4}>
-              <Card sx={{ height: "85%", width: "100%", py: 1 }}>
-                <CardContent
-                  sx={{ display: "flex", justifyContent: "flex-start" }}
-                >
-                  <Box>
-                    <Text
-                      sx={{ fontWeight: 600, fontSize: "42px", mt: "10px" }}
-                    >
-                      80
-                    </Text>
-                    <Text
-                      sx={{ fontWeight: 600, fontSize: "18px", mt: "10px" }}
-                    >
-                      In Progress Tasks
-                    </Text>
-                  </Box>
-                  <Box sx={{ width: "35%", ml: "25px" }}>
-                    <CircularProgressbar
-                      strokeWidth={12}
-                      value={progress}
-                      text={`${progress}%`}
-                      styles={buildStyles({
-                        strokeLinecap: "butt",
-                        textColor: "#232F57",
-                        pathColor: "#FFAB00",
-                        trailColor: "#F4F5F7",
-                      })}
-                    />
-                  </Box>
-                </CardContent>
-              </Card>
+            <Grid item xs={12} md={4} sx={{ minWidth: "33.3%" }}>
+              <TaskProgressComponent
+                status="Inprogress"
+                completed={completed}
+              />
             </Grid>
 
-            <Grid item xs={12} md={4}>
-              <Card sx={{ height: "85%", width: "100%", py: 1 }}>
-                <CardContent
-                  sx={{ display: "flex", justifyContent: "flex-start" }}
-                >
-                  <Box>
-                    <Text
-                      sx={{ fontWeight: 600, fontSize: "42px", mt: "10px" }}
-                    >
-                      90
-                    </Text>
-                    <Text
-                      sx={{ fontWeight: 600, fontSize: "18px", mt: "10px" }}
-                    >
-                      Overdue Tasks
-                    </Text>
-                  </Box>
-                  <Box sx={{ width: "35%", ml: "25px" }}>
-                    <CircularProgressbar
-                      strokeWidth={12}
-                      value={overdue}
-                      text={`${overdue}%`}
-                      styles={buildStyles({
-                        strokeLinecap: "butt",
-                        textColor: "#232F57",
-                        pathColor: "#FF5630",
-                        trailColor: "#F4F5F7",
-                      })}
-                    />
-                  </Box>
-                </CardContent>
-              </Card>
+            <Grid item xs={12} md={4} sx={{ minWidth: "33.3%" }}>
+              <TaskProgressComponent status="overdue" completed={completed} />
             </Grid>
           </Grid>
 
-          <Grid
-            container
-            spacing={2}
-            xs={12}
-            md={12}
-            sx={{ paddingTop: "9px" }}
-          >
-            <Grid item xs={12} md={8} sx={{ height: "100%", p: "10px" }}>
-              <Card sx={{ height: "100%", width: "100%" }}>
-                <CardContent>
-                  <Box
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Text sx={{ fontSize: "24px" }}>Forms</Text>
-
-                    <Button
-                      variant="contained"
-                      sx={{ width: "135px", height: "30px" }}
-                      onClick={handleFlow}
-                    >
-                      <Text
-                        sx={{
-                          fontSize: "12px",
-                          color: "#ffffff",
-                          fontWeight: 300,
-                        }}
-                      >
-                        New Form
-                      </Text>
-                    </Button>
-                  </Box>
-                  <TableContainer
-                    className={classes.root}
-                    component={Box}
-                    sx={{ width: "100%" }}
-                  >
-                    {isLoading ? (
-                      <div
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <Spinner
-                          size={120}
-                          spinnerColor={"#333"}
-                          spinnerWidth={2}
-                          visible={true}
-                        />
-                      </div>
-                    ) : null}
-                    <Table stickyHeader={true}>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>
-                            <Text sx={{ fontSize: "14px" }}>Form Name</Text>
-                          </TableCell>
-                          <TableCell align="center">
-                            <Text sx={{ fontSize: "14px" }}>Date Created</Text>
-                          </TableCell>
-                          <TableCell align="right">
-                            <Text sx={{ fontSize: "14px" }}>Created By</Text>
-                          </TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {allForms.map((data) => (
-                          <TableRow
-                            key={data.form_id}
-                            onClick={() => handleClick()}
-                            sx={{
-                              "&:last-child td, &:last-child th": { border: 0 },
-                            }}
-                          >
-                            <TableCell component="th" scope="row">
-                              {data.form_name}
-                            </TableCell>
-                            <TableCell align="center">
-                              {data.created_at}
-                            </TableCell>
-                            <TableCell align="right">
-                              {data.created_by}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </CardContent>
-              </Card>
+          {!name && (
+            <Grid
+              container
+              spacing={2}
+              xs={12}
+              md={12}
+              sx={{ paddingTop: "20px" }}
+            >
+              {/* FormTable Component here */}
+              <Grid
+                item
+                xs={12}
+                md={8}
+                sx={{ height: "100%", mt: "20px", Width: "50%" }}
+              >
+                <FormTable
+                  allForms={allForms}
+                  isLoading={isLoading}
+                  handleClick={handleClick}
+                  handleFlow={handleFlow}
+                  getEmployees={getEmployees}
+                />
+              </Grid>
+              {/* EmployeeList component here */}
+              <Grid item xs={12} md={4} sx={{ mt: "10px", Width: "35%" }}>
+                <EmployeeList
+                  handleFlow={addnewEmployee}
+                  employees={employees}
+                  getEmployees={getEmployees}
+                />
+              </Grid>
             </Grid>
-
-            <Grid item xs={12} md={4} sx={{ p: "10px" }}>
-              <Card sx={{ height: "100%", width: "100%" }}>
-                <CardContent>
-                  <Box
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Text sx={{ fontSize: "24px" }}>Employees</Text>
-                    <Button
-                      variant="contained"
-                      sx={{ width: "135px", height: "30px" }}
-                      onClick={handleFlow}
-                    >
-                      <Text
-                        sx={{
-                          fontSize: "12px",
-                          color: "#ffffff",
-                          fontWeight: 300,
-                        }}
-                      >
-                        New Employee
-                      </Text>
-                    </Button>
-                  </Box>
-
-                  <List
-                    className={classes.root}
-                    sx={{ width: "100%", overflow: "auto" }}
-                  >
-                    {isLoading ? (
-                      <div
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <Spinner
-                          size={120}
-                          spinnerColor={"#333"}
-                          spinnerWidth={2}
-                          visible={true}
-                        />
-                      </div>
-                    ) : null}
-                    {empoyees.map((emp) => (
-                      <>
-                        <ListItem>
-                          <ListItemAvatar>
-                            <div
-                              style={{
-                                height: "30px",
-                                width: "30px",
-                                borderRadius: "50%",
-                              }}
-                            >
-                              <img
-                                src={emp.image_url}
-                                style={{
-                                  height: "30px",
-                                  width: "30px",
-                                  borderRadius: "50%",
-                                }}
-                              />
-                            </div>
-                          </ListItemAvatar>
-                          <ListItemText
-                            primary={emp.employee_name}
-                            secondary={emp.designation}
-                          />
-                        </ListItem>
-                        <Divider />
-                      </>
-                    ))}
-                  </List>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
+          )}
         </Grid>
+        {/* SuperEmpDetail component here */}
+        {!!name && <SuperEmpDetail eId={name} />}
         {/* <RegisterEmpModal open={flow} handleClose={handleFlow} /> */}
+
+        <RegisterEmpModal open={addemp} handleClose={addnewEmployee} />
       </Box>
     </Box>
   );

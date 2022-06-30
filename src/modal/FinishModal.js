@@ -23,7 +23,7 @@ const style = {
 };
 
 
-function FinishModal({ open, handleClose }) {
+function    FinishModal({ open, handleClose }) {
     return (
         <div style={{ display: { sm: 'scroll', md: 'block' } }}>
             <Modal

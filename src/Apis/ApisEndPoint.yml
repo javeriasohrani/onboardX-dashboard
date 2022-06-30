@@ -1,523 +1,523 @@
-# AWSTemplateFormatVersion: '2010-09-09'
-# Transform: AWS::Serverless-2016-10-31
+# # AWSTemplateFormatVersion: '2010-09-09'
+# # Transform: AWS::Serverless-2016-10-31
+# # #--------------------------------------------
+# # #     Globals
+# # #--------------------------------------------
+# # Globals:
+# #   Function:
+# #     Runtime: nodejs14.x
+# #     Timeout: 25
+# #     Handler: index.handler
+# #     MemorySize: 128
+# #     Timeout: 25
+# #     Tracing: Active
+# #     Layers:
+# #     - !Ref NodeLayer
+# #     Environment:
+# #       Variables:
+# #           host: "packagex-development.csum1klzle47.us-east-1.rds.amazonaws.com"
+# #           user: "api_gateway_rw"
+# #           port: 2500,
+# #           password: "qVGDnRVBUXcZjhm8uKxXCv"
+# #           database: "peoplex_onboarding_dev"
+# #           secretAccessKey: "5IKPzBo1MP9i6fVi1bcYc0Rx5g/eqwiBPfh7Qc31"
+# #           accessKeyId: "AKIAZC5OGWJ74DOL6HNY"
+# #           region: "us-east-1"
+# #           Mybucket: "peoplex-assets-dev"
+# #           ENV: dev
+# #     AutoPublishAlias: !Ref Stage    
+# #     Tags:
+# #       Stack: !Sub peoplex-api-${Stage}  
 # #--------------------------------------------
-# #     Globals
+# #     Parameters
 # #--------------------------------------------
-# Globals:
-#   Function:
-#     Runtime: nodejs14.x
-#     Timeout: 25
-#     Handler: index.handler
-#     MemorySize: 128
-#     Timeout: 25
-#     Tracing: Active
-#     Layers:
-#     - !Ref NodeLayer
-#     Environment:
-#       Variables:
-#           host: "packagex-development.csum1klzle47.us-east-1.rds.amazonaws.com"
-#           user: "api_gateway_rw"
-#           port: 2500,
-#           password: "qVGDnRVBUXcZjhm8uKxXCv"
-#           database: "peoplex_onboarding_dev"
-#           secretAccessKey: "5IKPzBo1MP9i6fVi1bcYc0Rx5g/eqwiBPfh7Qc31"
-#           accessKeyId: "AKIAZC5OGWJ74DOL6HNY"
-#           region: "us-east-1"
-#           Mybucket: "peoplex-assets-dev"
-#           ENV: dev
-#     AutoPublishAlias: !Ref Stage    
-#     Tags:
-#       Stack: !Sub peoplex-api-${Stage}  
-#--------------------------------------------
-#     Parameters
-#--------------------------------------------
-# Parameters:
-#   Stage:
-#     Description: Environment
-#     Type: String
-#     Default: dev
-#     AllowedValues:
-#       - dev
-#       - qa
-#       - uat
-#       - prod
-#--------------------------------------------
-#     Resources
-#--------------------------------------------
-Resources:
-#--------------------------------------------
-#     REST APIs
-#--------------------------------------------
-  api:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: !Ref Stage
-      TracingEnabled: true
-      OpenApiVersion: 3.0.2
-      Cors:
-        AllowMethods: "'*'"
-        AllowHeaders: "'*'"
-        AllowOrigin: "'*'"
-#--------------------------------------------
-#     Layer
-#--------------------------------------------
-  NodeLayer:
-    Type: AWS::Serverless::LayerVersion
-    Properties:
-      CompatibleRuntimes:
-      - nodejs14.x
-      ContentUri: dependencies/
-      LayerName: !Sub ${AWS::StackName}-NodeLayer
-      RetentionPolicy: Delete
-#--------------------------------------------
-#     Functions
-#--------------------------------------------
-  # helloworld:
-  #   Type: 'AWS::Serverless::Function'
-  #   Properties:
-  #     Handler: app.handler
-  #     CodeUri: src/
-  #     Description: >-
-  #       Nodejs 14 lambda func
-  #     Events:
-  #       helloworld:
-  #         Type: Api
-  #         Properties:
-  #           Path: /helloworld
-  #           RestApiId: !Ref api
-  #           Method: POST
-  #     Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+# # Parameters:
+# #   Stage:
+# #     Description: Environment
+# #     Type: String
+# #     Default: dev
+# #     AllowedValues:
+# #       - dev
+# #       - qa
+# #       - uat
+# #       - prod
+# #--------------------------------------------
+# #     Resources
+# #--------------------------------------------
+# Resources:
+# #--------------------------------------------
+# #     REST APIs
+# #--------------------------------------------
+#   api:
+#     Type: AWS::Serverless::Api
+#     Properties:
+#       StageName: !Ref Stage
+#       TracingEnabled: true
+#       OpenApiVersion: 3.0.2
+#       Cors:
+#         AllowMethods: "'*'"
+#         AllowHeaders: "'*'"
+#         AllowOrigin: "'*'"
+# #--------------------------------------------
+# #     Layer
+# #--------------------------------------------
+#   NodeLayer:
+#     Type: AWS::Serverless::LayerVersion
+#     Properties:
+#       CompatibleRuntimes:
+#       - nodejs14.x
+#       ContentUri: dependencies/
+#       LayerName: !Sub ${AWS::StackName}-NodeLayer
+#       RetentionPolicy: Delete
+# #--------------------------------------------
+# #     Functions
+# #--------------------------------------------
+#   # helloworld:
+#   #   Type: 'AWS::Serverless::Function'
+#   #   Properties:
+#   #     Handler: app.handler
+#   #     CodeUri: src/
+#   #     Description: >-
+#   #       Nodejs 14 lambda func
+#   #     Events:
+#   #       helloworld:
+#   #         Type: Api
+#   #         Properties:
+#   #           Path: /helloworld
+#   #           RestApiId: !Ref api
+#   #           Method: POST
+#   #     Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
 
-  GETemployeeById:
+#   GETemployeeById:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: employee/getEmployee.getEmployees
-      CodeUri: src/
-      Description: >-
-        lambda func to get employee details
-      Events:
-        GETemployeeById:
-          Type: Api
-          Properties:
-            Path: /employee/{employee_id}
-            RestApiId: !Ref api
-            Method: GET
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role 
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: employee/getEmployee.getEmployees
+#       CodeUri: src/
+#       Description: >-
+#         lambda func to get employee details
+#       Events:
+#         GETemployeeById:
+#           Type: Api
+#           Properties:
+#             Path: /employee/{employee_id}
+#             RestApiId: !Ref api
+#             Method: GET
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role 
 
-  GETtestemployee:
+#   GETtestemployee:
 
-    # Type: 'AWS::Serverless::Function'
-    # Properties:
-    #   Handler: employee/employeedetail.gettestEmployees
-    #   CodeUri: src/
-    #   Description: >-
-    #     lambda func to get employee 8 details
-    #   Events:
-    #     GETemployeeById:
-    #       Type: Api
-    #       Properties:
-    #         Path: /employee-detail
-    #         RestApiId: !Ref api
-    #         Method: GET
-    #   Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#     # Type: 'AWS::Serverless::Function'
+#     # Properties:
+#     #   Handler: employee/employeedetail.gettestEmployees
+#     #   CodeUri: src/
+#     #   Description: >-
+#     #     lambda func to get employee 8 details
+#     #   Events:
+#     #     GETemployeeById:
+#     #       Type: Api
+#     #       Properties:
+#     #         Path: /employee-detail
+#     #         RestApiId: !Ref api
+#     #         Method: GET
+#     #   Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
 
-  GETallemployee:
+#   GETallemployee:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: employee/getAllEmployee.getAllEmployees
-      CodeUri: src/
-      Description: >-
-        lambda func to get all employees  details
-      Events:
-        GETemployeeById:
-          Type: Api
-          Properties:
-            Path: /all-employees
-            RestApiId: !Ref api
-            Method: GET
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: employee/getAllEmployee.getAllEmployees
+#       CodeUri: src/
+#       Description: >-
+#         lambda func to get all employees  details
+#       Events:
+#         GETemployeeById:
+#           Type: Api
+#           Properties:
+#             Path: /all-employees
+#             RestApiId: !Ref api
+#             Method: GET
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
 
-  insertemployee:
+#   insertemployee:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: employee/insertEmployee.insertEmployee
-      CodeUri: src/
-      Description: >-
-        add new employee to db
-      Events:
-        insertemployee:
-          Type: Api
-          Properties:
-            Path: /employee
-            RestApiId: !Ref api
-            Method: POST
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role  
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: employee/insertEmployee.insertEmployee
+#       CodeUri: src/
+#       Description: >-
+#         add new employee to db
+#       Events:
+#         insertemployee:
+#           Type: Api
+#           Properties:
+#             Path: /employee
+#             RestApiId: !Ref api
+#             Method: POST
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role  
 
-  UpdateEmployee:
+#   UpdateEmployee:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: employee/updateEmployee.updateEmployee
-      CodeUri: src/
-      Description: >-
-        update employee by ID
-      Events:
-        insertemployee:
-          Type: Api
-          Properties:
-            Path: /update-employee/{employee_id}
-            RestApiId: !Ref api
-            Method: PUT
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: employee/updateEmployee.updateEmployee
+#       CodeUri: src/
+#       Description: >-
+#         update employee by ID
+#       Events:
+#         insertemployee:
+#           Type: Api
+#           Properties:
+#             Path: /update-employee/{employee_id}
+#             RestApiId: !Ref api
+#             Method: PUT
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
 
-  GETpermanentEmployees:
+#   GETpermanentEmployees:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: employee/buddy.mybuddy
-      CodeUri: src/
-      Description: >-
-        lambda func to get employee details
-      Events:
-        GETpermanentEmployees:
-          Type: Api
-          Properties:
-            Path: /employee/permanent
-            RestApiId: !Ref api
-            Method: GET
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role 
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: employee/buddy.mybuddy
+#       CodeUri: src/
+#       Description: >-
+#         lambda func to get employee details
+#       Events:
+#         GETpermanentEmployees:
+#           Type: Api
+#           Properties:
+#             Path: /employee/permanent
+#             RestApiId: !Ref api
+#             Method: GET
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role 
 
-  getuser:
+#   getuser:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: users/userGet.showUser
-      CodeUri: src/
-      Description: >-
-        show all users
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /all-users
-            RestApiId: !Ref api
-            Method: GET
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role  
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: users/userGet.showUser
+#       CodeUri: src/
+#       Description: >-
+#         show all users
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /all-users
+#             RestApiId: !Ref api
+#             Method: GET
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role  
 
-  createNewForm:
+#   createNewForm:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: forms/addForm.createForm
-      CodeUri: src/
-      Description: >-
-        create new form
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /create-form
-            RestApiId: !Ref api
-            Method: POST
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: forms/addForm.createForm
+#       CodeUri: src/
+#       Description: >-
+#         create new form
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /create-form
+#             RestApiId: !Ref api
+#             Method: POST
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
 
-  getform:
+#   getform:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: forms/basicform.getform
-      CodeUri: src/
-      Description: >-
-        show form
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /Allforms
-            RestApiId: !Ref api
-            Method: GET
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
-  deleteFormByID:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: forms/deleteForm.deleteForm
-      CodeUri: src/
-      Description: >-
-        delete form by form ID
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: delete-form/{form_id}
-            RestApiId: !Ref api
-            Method: DELETE
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role 
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: forms/basicform.getform
+#       CodeUri: src/
+#       Description: >-
+#         show form
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /Allforms
+#             RestApiId: !Ref api
+#             Method: GET
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#   deleteFormByID:
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: forms/deleteForm.deleteForm
+#       CodeUri: src/
+#       Description: >-
+#         delete form by form ID
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: delete-form/{form_id}
+#             RestApiId: !Ref api
+#             Method: DELETE
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role 
 
-  getformData:
+#   getformData:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: forms/filledForm.getformdata
-      CodeUri: src/
-      Description: >-
-        show form Data
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /form-data
-            RestApiId: !Ref api
-            Method: GET
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role     
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: forms/filledForm.getformdata
+#       CodeUri: src/
+#       Description: >-
+#         show form Data
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /form-data
+#             RestApiId: !Ref api
+#             Method: GET
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role     
 
-  fillformData:
+#   fillformData:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: forms/fillformData.fillFormData
-      CodeUri: src/
-      Description: >-
-        save form Data
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /form-data
-            RestApiId: !Ref api
-            Method: PUT
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: forms/fillformData.fillFormData
+#       CodeUri: src/
+#       Description: >-
+#         save form Data
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /form-data
+#             RestApiId: !Ref api
+#             Method: PUT
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
 
-  updateformfields:
+#   updateformfields:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: forms/updateform.updateForm
-      CodeUri: src/
-      Description: >-
-        update forms fields 
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /form
-            RestApiId: !Ref api
-            Method: PUT
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role   
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: forms/updateform.updateForm
+#       CodeUri: src/
+#       Description: >-
+#         update forms fields 
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /form
+#             RestApiId: !Ref api
+#             Method: PUT
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role   
 
-  sendForm:
+#   sendForm:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: forms/sendForm.assignForm
-      CodeUri: src/
-      Description: >-
-        Assign forms to Employee 
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /send-form
-            RestApiId: !Ref api
-            Method: POST
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role 
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: forms/sendForm.assignForm
+#       CodeUri: src/
+#       Description: >-
+#         Assign forms to Employee 
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /send-form
+#             RestApiId: !Ref api
+#             Method: POST
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role 
 
-  GetemployeeformsById:
+#   GetemployeeformsById:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: forms/getformByEmployeeId.getformByEmployeeID
-      CodeUri: src/
-      Description: >-
-        Employee forms  
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: formStatus-detail
-            RestApiId: !Ref api
-            Method: GET
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role  
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: forms/getformByEmployeeId.getformByEmployeeID
+#       CodeUri: src/
+#       Description: >-
+#         Employee forms  
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: formStatus-detail
+#             RestApiId: !Ref api
+#             Method: GET
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role  
 
-  AllemployeeFormStatusDetail:
+#   AllemployeeFormStatusDetail:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: forms/allEmployeeFormStatusDetail.AllemployeeFormStatus
-      CodeUri: src/
-      Description: >-
-        Employee forms  
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /formStatus-detail
-            RestApiId: !Ref api
-            Method: GET
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: forms/allEmployeeFormStatusDetail.AllemployeeFormStatus
+#       CodeUri: src/
+#       Description: >-
+#         Employee forms  
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /formStatus-detail
+#             RestApiId: !Ref api
+#             Method: GET
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
 
-  uploadfile:
+#   uploadfile:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: S3upload.uploadfile
-      CodeUri: src/
-      Description: >-
-        upload image file  
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /upload
-            RestApiId: !Ref api
-            Method: POST
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role 
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: S3upload.uploadfile
+#       CodeUri: src/
+#       Description: >-
+#         upload image file  
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /upload
+#             RestApiId: !Ref api
+#             Method: POST
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role 
 
-  # addNews:
+#   # addNews:
 
-  #   Type: 'AWS::Serverless::Function'
-  #   Properties:
-  #     Handler: news/addNews.insertnews
-  #     CodeUri: src/
-  #     Description: >-
-  #       add news  
-  #     Events:
-  #       buddy:
-  #         Type: Api
-  #         Properties:
-  #           Path: /news
-  #           RestApiId: !Ref api
-  #           Method: POST
-  #     Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#   #   Type: 'AWS::Serverless::Function'
+#   #   Properties:
+#   #     Handler: news/addNews.insertnews
+#   #     CodeUri: src/
+#   #     Description: >-
+#   #       add news  
+#   #     Events:
+#   #       buddy:
+#   #         Type: Api
+#   #         Properties:
+#   #           Path: /news
+#   #           RestApiId: !Ref api
+#   #           Method: POST
+#   #     Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
 
-  # getallNews:
+#   # getallNews:
 
-  #   Type: 'AWS::Serverless::Function'
-  #   Properties:
-  #     Handler: news/showallNews.getAllNews
-  #     CodeUri: src/
-  #     Description: >-
-  #       show all news  
-  #     Events:
-  #       buddy:
-  #         Type: Api
-  #         Properties:
-  #           Path: /news
-  #           RestApiId: !Ref api
-  #           Method: GET
-  #     Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role    
+#   #   Type: 'AWS::Serverless::Function'
+#   #   Properties:
+#   #     Handler: news/showallNews.getAllNews
+#   #     CodeUri: src/
+#   #     Description: >-
+#   #       show all news  
+#   #     Events:
+#   #       buddy:
+#   #         Type: Api
+#   #         Properties:
+#   #           Path: /news
+#   #           RestApiId: !Ref api
+#   #           Method: GET
+#   #     Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role    
 
-  # deletenewsById:
+#   # deletenewsById:
 
-  #   Type: 'AWS::Serverless::Function'
-  #   Properties:
-  #     Handler: news/deleteNews.deleteNews
-  #     CodeUri: src/
-  #     Description: >-
-  #       delete news by id  
-  #     Events:
-  #       buddy:
-  #         Type: Api
-  #         Properties:
-  #           Path: /news/{news_id}
-  #           RestApiId: !Ref api
-  #           Method: DELETE
-  #     Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#   #   Type: 'AWS::Serverless::Function'
+#   #   Properties:
+#   #     Handler: news/deleteNews.deleteNews
+#   #     CodeUri: src/
+#   #     Description: >-
+#   #       delete news by id  
+#   #     Events:
+#   #       buddy:
+#   #         Type: Api
+#   #         Properties:
+#   #           Path: /news/{news_id}
+#   #           RestApiId: !Ref api
+#   #           Method: DELETE
+#   #     Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
 
-  # updateNews:
+#   # updateNews:
 
-  #   Type: 'AWS::Serverless::Function'
-  #   Properties:
-  #     Handler: news/updateNews.updateNews
-  #     CodeUri: src/
-  #     Description: >-
-  #       update News 
-  #     Events:
-  #       buddy:
-  #         Type: Api
-  #         Properties:
-  #           Path: /news
-  #           RestApiId: !Ref api
-  #           Method: PUT
-  #     Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#   #   Type: 'AWS::Serverless::Function'
+#   #   Properties:
+#   #     Handler: news/updateNews.updateNews
+#   #     CodeUri: src/
+#   #     Description: >-
+#   #       update News 
+#   #     Events:
+#   #       buddy:
+#   #         Type: Api
+#   #         Properties:
+#   #           Path: /news
+#   #           RestApiId: !Ref api
+#   #           Method: PUT
+#   #     Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
 
-  GetAllRoles:
+#   GetAllRoles:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: UserRole/getAllRoles.getroles
-      CodeUri: src/
-      Description: >-
-        Get Roles 
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /user-role
-            RestApiId: !Ref api
-            Method: GET
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: UserRole/getAllRoles.getroles
+#       CodeUri: src/
+#       Description: >-
+#         Get Roles 
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /user-role
+#             RestApiId: !Ref api
+#             Method: GET
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
 
-  InsertRole:
+#   InsertRole:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: UserRole/addRole.insertRole
-      CodeUri: src/
-      Description: >-
-        Add User Roles 
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /user-role
-            RestApiId: !Ref api
-            Method: POST
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: UserRole/addRole.insertRole
+#       CodeUri: src/
+#       Description: >-
+#         Add User Roles 
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /user-role
+#             RestApiId: !Ref api
+#             Method: POST
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
 
-  deleteRoleBId:
+#   deleteRoleBId:
 
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: UserRole/deleteRole.deleteRolebyId
-      CodeUri: src/
-      Description: >-
-        delete User Roles 
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /user-role/{role_id}
-            RestApiId: !Ref api
-            Method: DELETE
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: UserRole/deleteRole.deleteRolebyId
+#       CodeUri: src/
+#       Description: >-
+#         delete User Roles 
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /user-role/{role_id}
+#             RestApiId: !Ref api
+#             Method: DELETE
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
       
-  UpdateRole:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: UserRole/updateRole.updateRole
-      CodeUri: src/
-      Description: >-
-        Update User Roles 
-      Events:
-        buddy:
-          Type: Api
-          Properties:
-            Path: /user-role
-            RestApiId: !Ref api
-            Method: PUT
-      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
-#--------------------------------------------
-#     Outputs
-#--------------------------------------------
-Outputs:
-  ApiUrl:
-    Value: !Sub https://${api}.execute-api.${AWS::Region}.amazonaws.com/${api.Stage}/
-    Description: API Gateway URL that triggers our Lambda
-  ApiId:
-    Description: Api id of REST API
-    Value: !Ref api
-#aws cloudformation package --template-file codepipeline/template.yaml --s3-bucket px-cf-artifacts --output-template-file  outputsamtemplate
-#aws cloudformation deploy --template-file outputsamtemplate --stack-name peoplex-api-dev --capabilities CAPABILITY_IAM
+#   UpdateRole:
+#     Type: 'AWS::Serverless::Function'
+#     Properties:
+#       Handler: UserRole/updateRole.updateRole
+#       CodeUri: src/
+#       Description: >-
+#         Update User Roles 
+#       Events:
+#         buddy:
+#           Type: Api
+#           Properties:
+#             Path: /user-role
+#             RestApiId: !Ref api
+#             Method: PUT
+#       Role: !Sub arn:aws:iam::${AWS::AccountId}:role/peoplex-lambda-execution-role
+# #--------------------------------------------
+# #     Outputs
+# #--------------------------------------------
+# Outputs:
+#   ApiUrl:
+#     Value: !Sub https://${api}.execute-api.${AWS::Region}.amazonaws.com/${api.Stage}/
+#     Description: API Gateway URL that triggers our Lambda
+#   ApiId:
+#     Description: Api id of REST API
+#     Value: !Ref api
+# #aws cloudformation package --template-file codepipeline/template.yaml --s3-bucket px-cf-artifacts --output-template-file  outputsamtemplate
+# #aws cloudformation deploy --template-file outputsamtemplate --stack-name peoplex-api-dev --capabilities CAPABILITY_IAM
